@@ -1,5 +1,7 @@
 # aeon-radio-drama
 
+
+[![☕ Tips](https://img.shields.io/badge/%E2%98%95_Tips-Support_the_work-ff5e5b?style=flat)](https://github.com/AEON-7/AEON-7#-support-the-work)
 > Full-pipeline radio drama / audiobook / audio-fiction production. From a JSON script to a finished mixed master in one command. Multi-character TTS (Qwen3) → ACE Step music score → MMAudio/SAO/ACE-Step SFX (auto-routed by duration) → sidechain-ducked loudness-normalized mix → WAV + MP3 master.
 
 Part of the **AEON Media Production** family.
@@ -157,3 +159,38 @@ MIT. See `LICENSE`.
 - [`aeon-movie-maker`](https://github.com/AEON-7/aeon-movie-maker) — fast cinematic video
 - [`aeon-music-video`](https://github.com/AEON-7/aeon-music-video) — audio-reactive video generation
 - [`comfyui-aeon-spark`](https://github.com/AEON-7/comfyui-aeon-spark) — base ComfyUI Docker stack
+
+---
+
+## ☕ Support the work
+
+If this release has been useful, tips are deeply appreciated — they go directly toward more compute, more models, and more open releases.
+
+<table align="center">
+  <tr>
+    <td align="center" width="50%">
+      <strong>₿ Bitcoin (BTC)</strong><br/>
+      <img src="https://raw.githubusercontent.com/AEON-7/AEON-7/main/assets/qr/btc.png" alt="BTC QR" width="200"/><br/>
+      <sub><code>bc1q09xmzn00q4z3c5raene0f3pzn9d9pvawfm0py4</code></sub>
+    </td>
+    <td align="center" width="50%">
+      <strong>Ξ Ethereum (ETH)</strong><br/>
+      <img src="https://raw.githubusercontent.com/AEON-7/AEON-7/main/assets/qr/eth.png" alt="ETH QR" width="200"/><br/>
+      <sub><code>0x1512667F6D61454ad531d2E45C0a5d1fd82D0500</code></sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <strong>◎ Solana (SOL)</strong><br/>
+      <img src="https://raw.githubusercontent.com/AEON-7/AEON-7/main/assets/qr/sol.png" alt="SOL QR" width="200"/><br/>
+      <sub><code>DgQsjHdAnT5PNLQTNpJdpLS3tYGpVcsHQCkpoiAKsw8t</code></sub>
+    </td>
+    <td align="center" width="50%">
+      <strong>ⓜ Monero (XMR)</strong><br/>
+      <img src="https://raw.githubusercontent.com/AEON-7/AEON-7/main/assets/qr/xmr.png" alt="XMR QR" width="200"/><br/>
+      <sub><code>836XrSKw4R76vNi3QPJ5Fa9ugcyvE2cWmKSPv3AhpTNNKvqP8v5ba9JRL4Vh7UnFNjDz3E2GXZDVVenu3rkZaNdUFhjAvgd</code></sub>
+    </td>
+  </tr>
+</table>
+
+> **Ethereum L2s (Base, Arbitrum, Optimism, Polygon, etc.) and EVM-compatible tokens** can be sent to the same Ethereum address.
