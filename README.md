@@ -120,6 +120,76 @@ See `SKILL.md` § "Standalone music + SFX generation".
 
 `setup.sh` checks all of this and prints download commands for any missing models.
 
+## Configuration
+
+All config goes through environment variables. Copy `.env.example` to `.env` and fill in your values.
+
+### Where to run this CLI: local vs remote ComfyUI
+
+#### Mode A — Local (CLI runs on the same machine as ComfyUI)
+
+The simplest setup for a single-machine GPU rig.
+
+```bash
+COMFYUI_URL=http://127.0.0.1:8188
+COMFYUI_ROOT=/path/to/your/local/ComfyUI    # required — pipeline reads/writes input/sfx + output/radio here
+```
+
+Run the orchestrator directly:
+
+```bash
+python scripts/radio_drama.py <project> --stage all
+```
+
+#### Mode B — Remote (ComfyUI on a different machine)
+
+Two sub-options — pick based on **whether the SFX library lives on the GPU box or on your local machine**.
+
+**B1 — Run CLI locally, hit remote ComfyUI HTTP** (good for greenfield projects):
+```bash
+COMFYUI_URL=http://<gpu-box-ip>:8188     # or 127.0.0.1 if you've set up an SSH tunnel
+COMFYUI_ROOT=./local-staging              # local path; pipeline writes project tree here
+```
+ComfyUI generates audio remotely, returns it via HTTP, the local script saves it. You'll need to manually rsync any pre-recorded SFX library files into `${COMFYUI_ROOT}/input/sfx/` first.
+
+**B2 — Run CLI on the remote machine via SSH** (good when the SFX library + outputs already live on the GPU box):
+```bash
+# In .env on the REMOTE machine:
+COMFYUI_URL=http://127.0.0.1:8188
+COMFYUI_ROOT=/path/to/ComfyUI/on/remote
+```
+
+Then invoke from your local terminal:
+```bash
+ssh user@<gpu-box-host> 'cd /path/to/aeon-radio-drama && python scripts/radio_drama.py <project> --stage all'
+
+# Pull the master when done:
+scp user@<gpu-box-host>:/path/to/output/radio/<project>/<project>_radio.{wav,mp3} .
+```
+
+### All environment variables
+
+| Variable | Required? | Default | What it is |
+|---|---|---|---|
+| `COMFYUI_URL` | required | `http://127.0.0.1:8188` | ComfyUI HTTP endpoint. See "local vs remote" above. |
+| `COMFYUI_ROOT` | **required** | (none) | Path to ComfyUI install. Pipeline reads SFX library at `${COMFYUI_ROOT}/input/sfx/` and writes project trees at `${COMFYUI_ROOT}/output/radio/<project>/`. |
+| `OUTPUT_DIR` | optional | `${COMFYUI_ROOT}/output` | Override where output trees land. |
+| `FFMPEG` | optional | `ffmpeg` from PATH | Override ffmpeg binary path. |
+| `FFPROBE` | optional | `ffprobe` from PATH | Override ffprobe binary path. |
+| `ACE_DEFAULT_VARIANT` | optional | `xl_base` | Default music quality. Per-cue `variant` field overrides. |
+| `SSH_USER`, `SSH_HOST` | optional | (none) | Reference variables for SSH-based remote invocation. The Python CLI doesn't read these directly — they're used in shell-snippet examples. |
+| `HF_TOKEN` | optional | (none) | HuggingFace token for auto-downloading gated models. Get one from https://huggingface.co/settings/tokens (Read scope). Most users install models via ComfyUI Manager UI and never need this. |
+
+### How to know which model files you need
+
+Run `./setup.sh`. It walks the canonical model paths under `${COMFYUI_ROOT}/models/` and reports what's missing. Easiest installation paths:
+
+1. **ComfyUI Manager** (the in-browser UI button in ComfyUI) — most ACE Step / MMAudio / SAO models are one-click installable
+2. **`huggingface-cli download`** — for batch installs from the official HF repos (`ace-step/ACE-Step-v1-3.5B`, `KIM-LAB/MMAudio-Large`, `stabilityai/stable-audio-open-1.0`)
+3. **Manual download** from the URLs `setup.sh` prints — fastest if you have only a few to fetch
+
+For Qwen3-TTS specifically, follow the FB_Qwen3TTS custom node's README — it bundles a downloader.
+
 ## Project structure
 
 ```

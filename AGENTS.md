@@ -2,6 +2,44 @@
 
 Instructions for AI agents that operate this tool.
 
+## Step 0 — Determine execution mode
+
+Before issuing any commands, figure out **where the CLI runs vs. where ComfyUI runs**. This shapes every shell command you'll generate.
+
+### Local mode (CLI on the same machine as ComfyUI)
+
+Symptoms:
+- `COMFYUI_URL=http://127.0.0.1:8188` AND `curl -sf $COMFYUI_URL/system_stats` succeeds
+- `COMFYUI_ROOT` points at a real local directory containing a `models/` subdir
+- User mentions running "everything on one machine"
+
+Action: **invoke directly.** No SSH.
+```bash
+python scripts/radio_drama.py <project> --stage all
+```
+
+### Remote mode (ComfyUI on a different machine)
+
+Symptoms:
+- `COMFYUI_URL` points to a non-loopback IP, OR is loopback only because of an SSH tunnel
+- User mentions "GPU box", "DGX Spark", "headless server", "remote workstation"
+
+Two sub-modes — **pick based on where the SFX library lives**:
+
+**Remote-A — CLI runs LOCALLY, hits remote ComfyUI HTTP API:**
+- Best for greenfield projects (no pre-existing SFX library on the remote box)
+- `COMFYUI_ROOT` points to a LOCAL staging directory
+- All project files (script.json, dialogue WAVs, music FLACs, SFX clips, final master) end up local
+- ComfyUI does the GPU work remotely; outputs come back via HTTP
+- No SSH commands needed for invocation
+
+**Remote-B — CLI runs ON the remote machine via SSH:**
+- Best when SFX library + previous renders already live on the GPU box
+- Wrap commands: `ssh ${SSH_USER}@<host> 'cd /path/to/repo && python scripts/radio_drama.py <project> --stage all'`
+- Pull final master afterwards: `scp ${SSH_USER}@<host>:/.../<project>_radio.mp3 .`
+
+**Default to Remote-A unless the user explicitly asks for SSH-based runs or has a populated SFX library on the remote box.**
+
 ## ⛔ STOP — DO NOT BUILD COMFYUI WORKFLOWS BY HAND
 
 Every workflow this pipeline uses (Qwen3-TTS, ACE Step music, MMAudio SFX, Stable Audio Open SFX) is **already built and tested** inside `scripts/radio_drama.py`. The reference JSON inside `SKILL.md` is documentation of what the orchestrator constructs internally — **not** a contract to reimplement.
