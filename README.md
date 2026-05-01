@@ -190,6 +190,35 @@ Run `./setup.sh`. It walks the canonical model paths under `${COMFYUI_ROOT}/mode
 
 For Qwen3-TTS specifically, follow the FB_Qwen3TTS custom node's README — it bundles a downloader.
 
+## Updating an existing install
+
+If you cloned this repo before and want to pick up the latest changes, run:
+
+```bash
+cd /path/to/aeon-radio-drama
+./sync.sh
+```
+
+The script:
+1. **Detects local uncommitted changes** and offers to stash + re-apply them
+2. **Shows a diff preview** of incoming commits before pulling
+3. **Asks for confirmation** before applying anything
+4. **Refreshes Python deps** + re-runs the model delta-check
+
+### Flags
+
+| Flag | What it does |
+|---|---|
+| `./sync.sh` | Default — interactive, shows diff, prompts |
+| `./sync.sh --dry-run` (or `-n`) | Show what would change without pulling |
+| `./sync.sh --yes` (or `-y`) | Non-interactive (CI / cron) |
+| `./sync.sh --no-models` | Skip the model file check |
+| `./sync.sh --help` | Print usage |
+
+### What if I customized something?
+
+The sync script auto-stashes any uncommitted local edits before pulling, then re-applies them. `.env`, your `output/` trees, your SFX library, `__pycache__/`, and other personal files are gitignored — they're never touched by sync.
+
 ## Project structure
 
 ```
