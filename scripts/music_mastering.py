@@ -38,7 +38,7 @@ Presets:
   - orchestral   → TRANSPARENT — minimal EQ, zero sat, -18 LUFS
   - jazz         → transparent + whisper of warmth, -15 LUFS
 """
-import argparse, json, os, subprocess, sys, time
+import argparse, json, os, shutil, subprocess, sys, time
 import numpy as np
 from pathlib import Path
 
@@ -51,8 +51,8 @@ import pedalboard as pb
 from pedalboard.io import AudioFile
 import librosa
 
-FFMPEG = r"${FFMPEG:-ffmpeg}"
-FFPROBE = r"${FFPROBE:-ffprobe}"
+FFMPEG = shutil.which("ffmpeg") or os.environ.get("FFMPEG", "ffmpeg")
+FFPROBE = shutil.which("ffprobe") or os.environ.get("FFPROBE", "ffprobe")
 
 
 # ---------------------------------------------------------------------------
