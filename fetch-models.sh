@@ -7,6 +7,7 @@ set -euo pipefail
 [[ -f .env ]] && { set -a; source .env; set +a; }
 
 COMFYUI_ROOT="${COMFYUI_ROOT:-}"
+COMFYUI_PYTHON="${COMFYUI_PYTHON:-}"
 
 c_red(){ printf '\033[31m%s\033[0m\n' "$*"; }
 c_grn(){ printf '\033[32m%s\033[0m\n' "$*"; }
@@ -17,9 +18,11 @@ if [[ -z "$COMFYUI_ROOT" ]]; then
     c_red "COMFYUI_ROOT not set in .env"
     exit 1
 fi
-py="$COMFYUI_ROOT/venv/bin/python"
+# Interpreter defaults to $COMFYUI_ROOT/venv/bin/python; override via COMFYUI_PYTHON.
+py="${COMFYUI_PYTHON:-$COMFYUI_ROOT/venv/bin/python}"
 if [[ ! -x "$py" ]]; then
-    c_red "No venv at $COMFYUI_ROOT/venv"
+    c_red "No usable Python at $py."
+    c_yel "     Install ComfyUI's venv there, or set COMFYUI_PYTHON in .env."
     exit 1
 fi
 
