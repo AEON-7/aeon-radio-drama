@@ -93,8 +93,8 @@ except Exception:
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 COMFYUI_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, ".."))
 
-FFMPEG = shutil.which("ffmpeg") or r"${FFMPEG:-ffmpeg}"
-FFPROBE = shutil.which("ffprobe") or r"${FFPROBE:-ffprobe}"
+FFMPEG = shutil.which("ffmpeg") or os.environ.get("FFMPEG", "ffmpeg")
+FFPROBE = shutil.which("ffprobe") or os.environ.get("FFPROBE", "ffprobe")
 COMFYUI_URL = os.environ.get("COMFYUI_URL", "http://127.0.0.1:8188")
 OUTPUT_ROOT = os.path.join(COMFYUI_ROOT, "output")
 
@@ -1401,8 +1401,13 @@ def stage_mix(ctx):
         fc.append(f"{music_in}amix=inputs={len(music_labels)}:duration=longest:"
                   f"normalize=0[music_raw]")
         fc.append(f"[music_raw]{AFORMAT}[music_pre]")
-        # Sidechain needs both inputs at same rate — we have them both at 48k from aformat
-        fc.append("[speech]asplit=2[speech_out][speech_key]")
+        # sidechaincompress frame-syncs against its sidechain (key) input and stops
+        # once that input ends — if speech is shorter than the music bed (the
+        # common case), the whole chain truncates early regardless of the final
+        # `-t` output flag. Pad speech to the full timeline length first so the
+        # duck stays alive (returning to unity gain) for the entire music bed.
+        fc.append(f"[speech]apad=whole_dur={total:.3f}[speech_padded]")
+        fc.append("[speech_padded]asplit=2[speech_out][speech_key]")
         fc.append("[music_pre][speech_key]sidechaincompress="
                   "threshold=0.04:ratio=8:attack=20:release=350:makeup=1[music_ducked]")
         # Final mix with weights to prevent clipping, then loudnorm
