@@ -1,7 +1,7 @@
 # aeon-radio-drama
 
 
-[![☕ Tips](https://img.shields.io/badge/%E2%98%95_Tips-Support_the_work-ff5e5b?style=flat)](https://github.com/AEON-7/AEON-7#-support-the-work) [![Buy me a lotus tea on LotusMake](https://lotusmake.com/badges/lotus-tea-dark.v1.svg)](https://lotusmake.com/support?via=tea)
+[![☕ Tips](https://img.shields.io/badge/%E2%98%95_Tips-Support_the_work-ff5e5b?style=flat)](https://github.com/AEON-7/AEON-7#-support-the-work) [![Buy me a coffee on LotusMake](https://lotusmake.com/badges/coffee-light.v2.svg)](https://lotusmake.com/support) [![Subscribe on lotusmake.com](https://lotusmake.com/badges/subscribe-light.v2.svg)](https://lotusmake.com/support?mode=tiers)
 > Full-pipeline radio drama / audiobook / audio-fiction production. From a JSON script to a finished mixed master in one command. Multi-character TTS (Qwen3) → ACE Step music score → MMAudio/SAO/ACE-Step SFX (auto-routed by duration) → sidechain-ducked loudness-normalized mix → WAV + MP3 master.
 
 Part of the **AEON Media Production** family.
@@ -267,7 +267,7 @@ AEON-7 models, drafters and tools are built and trained independently, on my own
 
 Patreon wrongfully shut down our account without notice and never responded to our appeals, so we built something even better. You can now support the work on **LotusMake**: buy us a Lotus Tea, fund GPU hours, back a project you want to see done, or subscribe for early and full access to publications while supporting what we build. You can become a creator there too: join, apply to become a creator, and get paid for the work you do in public.
 
-[![Buy me a lotus tea on LotusMake](https://lotusmake.com/badges/lotus-tea-dark.v1.svg)](https://lotusmake.com/support?via=tea)
+[![Buy me a coffee on LotusMake](https://lotusmake.com/badges/coffee-light.v2.svg)](https://lotusmake.com/support) [![Subscribe on lotusmake.com](https://lotusmake.com/badges/subscribe-light.v2.svg)](https://lotusmake.com/support?mode=tiers)
 
 **[AEON FORGE on LotusMake → lotusmake.com/c/aeon-forge](https://lotusmake.com/c/aeon-forge)** · **[Subscribe for early and full access](https://lotusmake.com/support?mode=tiers&from=%2Fc%2Faeon-forge)**
 
